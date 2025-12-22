@@ -18,6 +18,11 @@ const app = express()
 // secure: true cookie se NE šalje
 app.set('trust proxy', 1)
 
+const FRONTEND_URL = process.env.FRONTEND_URL
+if (!FRONTEND_URL) {
+  console.warn('⚠️ FRONTEND_URL nije definisan u env. Koristi fallback!')
+}
+
 // Middlewares
 app.use(express.json({ limit: '10mb' }))
 app.use(express.urlencoded({ extended: false }))
@@ -31,7 +36,9 @@ app.use(bodyParser.json())
 app.use(
   cors({
     // origin: ['http://localhost:3000', 'https://pinvent-app.vercel.app'],
-    origin: process.env.FRONTEND_URL,
+    origin:
+      FRONTEND_URL ||
+      'https://pinvent-azure-app-hbfyhca4dfhef0an.westeurope-01.azurewebsites.net',
     credentials: true, // enable sending credentials from backend to frontend
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
@@ -61,7 +68,7 @@ app.get('/', (req, res) => {
 app.use(errorHandler)
 
 // connect to DB and start server
-const PORT = process.env.PORT || 3000
+const PORT = process.env.PORT || 5000
 mongoose
   .connect(process.env.MONGO_URI, {
     serverSelectionTimeoutMS: 10000,
