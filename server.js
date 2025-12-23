@@ -40,7 +40,6 @@ app.use(
       FRONTEND_URL ||
       'https://pinvent-azure-app-hbfyhca4dfhef0an.westeurope-01.azurewebsites.net',
     credentials: true, // enable sending credentials from backend to frontend
-    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   })
 )
 
