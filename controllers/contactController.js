@@ -22,8 +22,19 @@ const contactUs = asyncHandler(async (req, res) => {
   const sent_from = process.env.EMAIL_USER
   const reply_to = user.email
 
+  console.log('SALJE SE NA ', send_to)
+  console.log('SALJE SE NA ', sent_from)
+
   try {
-    await sendEmail(subject, message, send_to, sent_from, reply_to)
+    const response = await sendEmail(
+      subject,
+      message,
+      send_to,
+      sent_from,
+      reply_to
+    )
+
+    console.log('RESSSSSSSSSSSSSSSSSSSSSSSSSSSS', response)
     res.status(200).json({ success: true, message: 'Email Sent' })
   } catch (error) {
     res.status(500)
